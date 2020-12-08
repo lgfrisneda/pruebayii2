@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\web\UploadFile;
+use yii\web\UploadedFile;
 use app\models\Network;
 use app\models\CategoryNetwork;
 use app\models\Service;
@@ -14,12 +14,14 @@ class PruebaController extends Controller
 	public function actionNetwork()
 	{
 		$model = new Network();
+		$category = new CategoryNetwork();
 
 		if($model->load(Yii::$app->request->post())){
 
 			$post = Yii::$app->request->post('Network');
+			$postC = Yii::$app->request->post('CategoryNetwork');
 
-			$model->image = UploadFile::getInstance($model, 'image');
+			$model->image = UploadedFile::getInstance($model, 'image');
 			if($model->image){
 				$model->upload();
 			}
@@ -36,18 +38,19 @@ class PruebaController extends Controller
 
 			$model->save();
 
-			foreach( $post['category'] as $category){
+			foreach( $postC['category_id'] as $cat){
 				$category_network = new CategoryNetwork();
 				$category_network->network_id = $model->id;
-				$category_network->category_id = $category;
+				$category_network->category_id = $cat;
 
 				$category_network->save();
 			}
 
-			return $this->redirect(['\prueba\service', 'id' => $model->id]);
+			return $this->redirect(['/prueba/service', 'id' => $model->id]);
 		}else{
 			return $this->render('network', [
-				'model' => $model
+				'model' => $model,
+				'category' => $category
 			]);
 		}
 	}
@@ -56,20 +59,25 @@ class PruebaController extends Controller
 	{
 		$model = new Service();
 
-		$post = Yii::$app->request->post('Service');
+		$network = Network::findOne($id);
 
-		$model->network_id = $id;
-		$model->photo = $post['photo'];
-		$model->value_photo = $post['value_photo'];
-		$model->discount_photo = $post['discount_photo'];
-		$model->video = $post['video'];
-		$model->value_video = $post['value_video'];
-		$model->discount_video = $post['discount_video'];
-		$model->story = $post['story'];
-		$model->value_story = $post['value_story'];
-		$model->discount_story = $post['discount_story'];
+		if($model->load(Yii::$app->request->post())){
 
-		if($model->load(Yii::$app->request->post()) && $model->save()){
+			$post = Yii::$app->request->post('Service');
+
+			$model->network_id = $network->id;
+			$model->photo = $post['photo'];
+			$model->value_photo = $post['value_photo'];
+			$model->discount_photo = $post['discount_photo'];
+			$model->video = $post['video'];
+			$model->value_video = $post['value_video'];
+			$model->discount_video = $post['discount_video'];
+			$model->story = $post['story'];
+			$model->value_story = $post['value_story'];
+			$model->discount_story = $post['discount_story'];
+	
+			$model->save();
+
 			return $this->refresh();
 		}else{
 			return $this->render('service', [
