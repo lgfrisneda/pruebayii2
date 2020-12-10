@@ -25,6 +25,21 @@ class m201208_165813_create_services_table extends Migration
             'value_story' => $this->string(),
             'discount_story' => $this->string(),
         ]);
+
+        $this->createIndex(
+            'idx-services-network_id',
+            'services',
+            'network_id'
+        );
+
+        $this->addForeignKey(
+            'fk-services-network_id',
+            'services',
+            'network_id',
+            'networks',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -32,6 +47,16 @@ class m201208_165813_create_services_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey(
+            'fk-services-network_id',
+            'services'
+        );
+
+        $this->dropIndex(
+            'idx-services-network_id',
+            'services'
+        );
+        
         $this->dropTable('{{%services}}');
     }
 }
