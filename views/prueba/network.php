@@ -2,9 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\icons\Icon;
+
+$this->title = 'Mis Recursos';
 
 ?>
-
+<h4><strong>Mis redes sociales</strong></h4>
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
     <div class="row">
         <div class="col-md-6">

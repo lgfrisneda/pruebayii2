@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+$this->title = 'Paquetes';
+
 ?>
 <h4><strong>Mis redes sociales</strong></h4>
 <h5><strong>Servicios y precios</strong></h5>
@@ -73,7 +75,7 @@ use yii\widgets\ActiveForm;
             <i class="glyphicon glyphicon-info-sign"></i>
         </div>
         <div class="col-md-12">
-            <p>El servicio consiste en publicar un Instagram Story siguiendo el briefing por la marca.</p>
+            <p>El servicio consiste en publicar un Instagram Story siguiendo el briefing definido por la marca.</p>
             <div class="col-md-6">
                 <?= $form->field($model, 'value_story',[
                             'options' => ['class' => 'form-group form-inline'],])

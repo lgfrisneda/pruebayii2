@@ -78,6 +78,7 @@ class PruebaController extends Controller
 	
 			$model->save();
 
+			Yii::$app->session->setFlash('success', "Your message to display");
 			return $this->refresh();
 		}else{
 			return $this->render('service', [

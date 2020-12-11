@@ -53,6 +53,7 @@ $config = [
         */
     ],
     'params' => $params,
+    'defaultRoute' => 'prueba/network'
 ];
 
 if (YII_ENV_DEV) {
